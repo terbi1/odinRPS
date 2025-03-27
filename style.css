@@ -27,6 +27,7 @@ play-section {
     align-items: center;
     background-color: gray;
     flex-grow: 1;
+    gap: 24px;
 }
 
 moves {
@@ -48,6 +49,10 @@ box {
     font-size: 72px;
     width: 150px;
     height: auto;
+}
+
+match-description {
+    text-align: center;
 }
 
 a {

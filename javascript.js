@@ -10,7 +10,13 @@ function getHumanChoice() {
     return prompt("Enter you choice human");
 }
 
+let currentRound = -1;
+const winScore = 5;
 let humanScore = computerScore = 0;
+
+function updateRound() {
+    document.querySelector("match-description > div").textContent = `Round ${++currentRound}`;
+}
 
 function getResult(humanChoice = "", computerChoice) {
 
@@ -60,9 +66,14 @@ function playRound(humanChoice = "", computerChoice) {
     }
 
     updateScore(humanScore, computerScore);
+    updateRound();
+
+    if (Math.max(humanScore, computerScore) >= 5) {
+        announceResult(humanScore >= 5 ? "human" : "machine");
+        addPlayAgain();
+    }
+
 }
-
-
 
 function updateChoice(updateTarget, newChoice) {
     switch (newChoice) {
@@ -94,6 +105,38 @@ choiceButton.forEach(button => {
         playRound(humanChoice, machineChoice);
     })
 });
+
+function announceResult(winner) {
+    switch (winner) {
+        case "human":
+            alert("Humans reign supreme!");
+            break;
+        case "machine":
+            alert("Machine takes over!!!");
+            break;
+    }
+}
+
+function gameInit() {
+    currentRound = -1;
+    document.querySelector("play-section > match-description > text").textContent = `First to score ${winScore} win`;
+    humanScore = computerScore = 0;
+    updateScore(0, 0);
+    updateRound();
+}
+
+gameInit();
+
+const playAgainButton = document.createElement("button");
+
+function addPlayAgain() {
+    playAgainButton.textContent = "Play again";
+    document.querySelector("play-section").appendChild(playAgainButton);
+}
+
+playAgainButton.addEventListener("click", () => {
+    gameInit();
+})
 
 
 
