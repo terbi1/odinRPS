@@ -70,6 +70,7 @@ function playRound(humanChoice = "", computerChoice) {
 
     if (Math.max(humanScore, computerScore) >= 5) {
         announceResult(humanScore >= 5 ? "human" : "machine");
+        endGame();
         addPlayAgain();
     }
 
@@ -92,18 +93,19 @@ function updateChoice(updateTarget, newChoice) {
 
 const choiceButton = document.querySelectorAll("button.choice");
 
+function choiceClickHandler() {
+    let humanChoice = event.target.id;
+    let machineChoice = getComputerChoice();
+
+    updateChoice(document.querySelector(".human > .choice"), humanChoice);
+
+    updateChoice(document.querySelector(".machine > .choice"), machineChoice);
+
+    playRound(humanChoice, machineChoice);
+}
+
 choiceButton.forEach(button => {
-    button.addEventListener("click", (button) => {
-
-        let humanChoice = event.target.id;
-        let machineChoice = getComputerChoice();
-
-        updateChoice(document.querySelector(".human > .choice"), humanChoice);
-
-        updateChoice(document.querySelector(".machine > .choice"), machineChoice);
-
-        playRound(humanChoice, machineChoice);
-    })
+    button.addEventListener("click", choiceClickHandler);
 });
 
 function announceResult(winner) {
@@ -123,6 +125,12 @@ function gameInit() {
     humanScore = computerScore = 0;
     updateScore(0, 0);
     updateRound();
+}
+
+function endGame() {
+    choiceButton.forEach((button) => {
+        button.removeEventListener("click", choiceClickHandler);
+    });
 }
 
 gameInit();
