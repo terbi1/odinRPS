@@ -12,31 +12,31 @@ function getResult(humanChoice = "", computerChoice) {
 
     // rock = 0; paper = 1; scissor = 2;
 
-    switch(true) {
+    switch (true) {
         case /rock/i.test(humanChoice):
-            if(computerChoice == 0) {
+            if (computerChoice == 0) {
                 return "draw";
             }
-    
-            if(computerChoice == 1) {
+
+            if (computerChoice == 1) {
                 return "computerWin";
             }
             break;
         case /paper/i.test(humanChoice):
-            if(computerChoice == 1) {
+            if (computerChoice == 1) {
                 return "draw";
             }
-    
-            if(computerChoice == 2) {
+
+            if (computerChoice == 2) {
                 return "computerWin";
             }
             break;
         case /scissor/i.test(humanChoice):
-            if(computerChoice == 2) {
+            if (computerChoice == 2) {
                 return "draw";
             }
-    
-            if(computerChoice == 0) {
+
+            if (computerChoice == 0) {
                 return "computerWin";
             }
             break;
@@ -46,7 +46,7 @@ function getResult(humanChoice = "", computerChoice) {
 }
 
 function playRound(humanChoice = "", computerChoice) {
-    
+
     switch (getResult(humanChoice, computerChoice)) {
         case "humanWin":
             ++humanScore;
@@ -58,14 +58,39 @@ function playRound(humanChoice = "", computerChoice) {
     console.log(`Human ${humanScore} - ${computerScore} Machine`)
 }
 
+const choiceButton = document.querySelectorAll("button.choice");
 
+choiceButton.forEach(button => {
+    button.addEventListener("click", (button) => {
+        let newChoice = "?";
 
-function playGame() {
-    for(i = 0; i < 5; ++i) {
-        playRound(getHumanChoice(), getComputerChoice());
-    }
-    // console.log(`Human: ${humanScore}`);
-    // console.log(`Machine: ${computerScore}`);
-} 
+        switch (event.target.id) {
+            case "rock":
+                newChoice = "✊";
+                break;
+            case "paper":
+                newChoice = "✋";
+                break;
+            case "scissor":
+                newChoice = "✌";
+                break;
+            default:
+        }
+
+        updateChoice(document.querySelector(".human > .choice"), newChoice);
+    })
+});
+
+function updateChoice(updateTarget, newChoice) {
+    updateTarget.textContent = newChoice;
+}
+
+// function playGame() {
+//     for(i = 0; i < 5; ++i) {
+//         playRound(getHumanChoice(), getComputerChoice());
+//     }
+//     // console.log(`Human: ${humanScore}`);
+//     // console.log(`Machine: ${computerScore}`);
+// } 
 
 playGame();
