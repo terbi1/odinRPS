@@ -1,5 +1,9 @@
 function getComputerChoice() {
-    return Math.floor(Math.random() * 3);
+    switch (Math.floor(Math.random() * 3)) {
+        case 0: return "rock";
+        case 1: return "paper";
+        case 2: return "scissor";
+    }
 }
 
 function getHumanChoice() {
@@ -58,32 +62,33 @@ function playRound(humanChoice = "", computerChoice) {
     console.log(`Human ${humanScore} - ${computerScore} Machine`)
 }
 
+function updateChoice(updateTarget, newChoice) {
+    switch (newChoice) {
+        case "rock":
+            updateTarget.textContent = "✊";
+            break;
+        case "paper":
+            updateTarget.textContent = "✋";
+            break;
+        case "scissor":
+            updateTarget.textContent = "✌";
+            break;
+        default:
+    }
+}
+
 const choiceButton = document.querySelectorAll("button.choice");
 
 choiceButton.forEach(button => {
     button.addEventListener("click", (button) => {
-        let newChoice = "?";
 
-        switch (event.target.id) {
-            case "rock":
-                newChoice = "✊";
-                break;
-            case "paper":
-                newChoice = "✋";
-                break;
-            case "scissor":
-                newChoice = "✌";
-                break;
-            default:
-        }
+        updateChoice(document.querySelector(".human > .choice"), event.target.id);
 
-        updateChoice(document.querySelector(".human > .choice"), newChoice);
+        updateChoice(document.querySelector(".machine > .choice"), getComputerChoice())
     })
 });
 
-function updateChoice(updateTarget, newChoice) {
-    updateTarget.textContent = newChoice;
-}
+
 
 // function playGame() {
 //     for(i = 0; i < 5; ++i) {
