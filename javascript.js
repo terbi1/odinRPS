@@ -104,10 +104,6 @@ function choiceClickHandler() {
     playRound(humanChoice, machineChoice);
 }
 
-choiceButton.forEach(button => {
-    button.addEventListener("click", choiceClickHandler);
-});
-
 function announceResult(winner) {
     switch (winner) {
         case "human":
@@ -123,8 +119,14 @@ function gameInit() {
     currentRound = -1;
     document.querySelector("play-section > match-description > text").textContent = `First to score ${winScore} win`;
     humanScore = computerScore = 0;
+
+    choiceButton.forEach(button => {
+        button.addEventListener("click", choiceClickHandler);
+    });
+
     updateScore(0, 0);
     updateRound();
+
 }
 
 function endGame() {
@@ -144,6 +146,9 @@ function addPlayAgain() {
 
 playAgainButton.addEventListener("click", () => {
     gameInit();
+
+    document.querySelector("play-section").removeChild(playAgainButton);
+
 })
 
 
