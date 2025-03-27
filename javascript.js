@@ -16,37 +16,36 @@ function getResult(humanChoice = "", computerChoice) {
 
     // rock = 0; paper = 1; scissor = 2;
 
-    switch (true) {
-        case /rock/i.test(humanChoice):
-            if (computerChoice == 0) {
-                return "draw";
-            }
+    console.log(humanChoice);
+    console.log(computerChoice);
 
-            if (computerChoice == 1) {
+    if (humanChoice == computerChoice) return "draw";
+
+    switch (humanChoice) {
+        case "rock":
+            if (computerChoice == "paper") {
                 return "computerWin";
             }
             break;
-        case /paper/i.test(humanChoice):
-            if (computerChoice == 1) {
-                return "draw";
-            }
-
-            if (computerChoice == 2) {
+        case "paper":
+            if (computerChoice == "scissor") {
                 return "computerWin";
             }
             break;
-        case /scissor/i.test(humanChoice):
-            if (computerChoice == 2) {
-                return "draw";
-            }
-
-            if (computerChoice == 0) {
+        case "scissor":
+            if (computerChoice == "rock") {
                 return "computerWin";
             }
             break;
-        default:
-            return "humanWin";
     }
+
+    return "humanWin";
+
+}
+
+function updateScore(humanScore, computerScore) {
+    document.querySelector(".human .score").textContent = `Human: ${humanScore}`;
+    document.querySelector(".machine .score").textContent = `Machine: ${computerScore}`;
 }
 
 function playRound(humanChoice = "", computerChoice) {
@@ -59,8 +58,11 @@ function playRound(humanChoice = "", computerChoice) {
             ++computerScore;
             break;
     }
-    console.log(`Human ${humanScore} - ${computerScore} Machine`)
+
+    updateScore(humanScore, computerScore);
 }
+
+
 
 function updateChoice(updateTarget, newChoice) {
     switch (newChoice) {
@@ -82,20 +84,25 @@ const choiceButton = document.querySelectorAll("button.choice");
 choiceButton.forEach(button => {
     button.addEventListener("click", (button) => {
 
-        updateChoice(document.querySelector(".human > .choice"), event.target.id);
+        let humanChoice = event.target.id;
+        let machineChoice = getComputerChoice();
 
-        updateChoice(document.querySelector(".machine > .choice"), getComputerChoice())
+        updateChoice(document.querySelector(".human > .choice"), humanChoice);
+
+        updateChoice(document.querySelector(".machine > .choice"), machineChoice);
+
+        playRound(humanChoice, machineChoice);
     })
 });
 
 
 
 // function playGame() {
-//     for(i = 0; i < 5; ++i) {
+//     for (i = 0; i < 5; ++i) {
 //         playRound(getHumanChoice(), getComputerChoice());
 //     }
 //     // console.log(`Human: ${humanScore}`);
 //     // console.log(`Machine: ${computerScore}`);
-// } 
+// }
 
-playGame();
+// playGame();
